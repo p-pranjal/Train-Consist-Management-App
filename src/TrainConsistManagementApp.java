@@ -3,6 +3,7 @@ import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
 
+    // 🔹 Reusing Bogie model
     static class Bogie {
         String name;
         int capacity;
@@ -13,47 +14,34 @@ public class TrainConsistManagementApp {
         }
     }
 
-    public static Map<String, List<Bogie>> groupBogiesByType(List<Bogie> bogies) {
+    public static int calculateTotalCapacity(List<Bogie> bogies) {
         return bogies.stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+                .map(b -> b.capacity)          // extract capacity
+                .reduce(0, Integer::sum);     // aggregate sum
     }
 
     public static void main(String[] args) {
 
         System.out.println("=======================================");
-        System.out.println(" UC9 - Group Bogies by Type ");
+        System.out.println(" UC10 - Count Total Seats in Train ");
         System.out.println("=======================================\n");
 
-        // 🔹 Create list
         List<Bogie> bogies = new ArrayList<>();
 
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
         bogies.add(new Bogie("First Class", 24));
         bogies.add(new Bogie("Sleeper", 70));
-        bogies.add(new Bogie("AC Chair", 60));
 
-        System.out.println("All Bogies:");
+        System.out.println("Bogies in Train:");
         for (Bogie b : bogies) {
             System.out.println(b.name + " -> " + b.capacity);
         }
 
-        Map<String, List<Bogie>> groupedBogies = groupBogiesByType(bogies);
+        int total = calculateTotalCapacity(bogies);
 
-        // 🔹 Display grouped structure
-        System.out.println("\nGrouped Bogies:\n");
+        System.out.println("\nTotal Seating Capacity of Train: " + total);
 
-        for (Map.Entry<String, List<Bogie>> entry : groupedBogies.entrySet()) {
-
-            System.out.println("Bogie Type: " + entry.getKey());
-
-            for (Bogie b : entry.getValue()) {
-                System.out.println("Capacity -> " + b.capacity);
-            }
-
-            System.out.println();
-        }
-
-        System.out.println("UC9 grouping completed");
+        System.out.println("\nUC10 aggregation completed...");
     }
 }
