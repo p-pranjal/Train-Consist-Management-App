@@ -1,27 +1,34 @@
 import org.junit.jupiter.api.Test;
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementAppTest extends TrainConsistManagementApp {
 
-    // Test 1: Valid inputs
+    // Test 1: All valid
     @Test
-    void testRegex_ValidInputs() {
-        assertTrue(validateTrainID("TRN-1234"));
-        assertTrue(validateCargoCode("PET-AB"));
+    void testSafety_AllBogiesValid() {
+        List<GoodsBogie> list = new ArrayList<>();
+        list.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        list.add(new GoodsBogie("Open", "Coal"));
+
+        assertTrue(isTrainSafe(list));
     }
 
-    // Test 2: Invalid formats
+    // Test 2: Invalid cylindrical cargo
     @Test
-    void testRegex_InvalidFormats() {
-        assertFalse(validateTrainID("TRAIN12"));
-        assertFalse(validateCargoCode("PET123"));
+    void testSafety_CylindricalWithInvalidCargo() {
+        List<GoodsBogie> list = new ArrayList<>();
+        list.add(new GoodsBogie("Cylindrical", "Coal"));
+
+        assertFalse(isTrainSafe(list));
     }
 
-    // Test 3: Edge cases (length + case)
+    // Test 3: Empty list
     @Test
-    void testRegex_EdgeCases() {
-        assertFalse(validateTrainID("TRN-123"));     // less digits
-        assertFalse(validateTrainID("TRN-12345"));   // extra digits
-        assertFalse(validateCargoCode("PET-ab"));    // lowercase
+    void testSafety_EmptyBogieList() {
+        List<GoodsBogie> list = new ArrayList<>();
+
+        assertTrue(isTrainSafe(list)); // no violations → safe
     }
 }
