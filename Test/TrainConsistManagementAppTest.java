@@ -1,48 +1,27 @@
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementAppTest extends TrainConsistManagementApp {
 
-    // Helper data
-    private List<Bogie> getBogies() {
-        List<Bogie> list = new ArrayList<>();
-        list.add(new Bogie("Sleeper", 72));
-        list.add(new Bogie("Sleeper", 70));
-        list.add(new Bogie("AC Chair", 56));
-        list.add(new Bogie("First Class", 24));
-        return list;
+    // Test 1: Valid inputs
+    @Test
+    void testRegex_ValidInputs() {
+        assertTrue(validateTrainID("TRN-1234"));
+        assertTrue(validateCargoCode("PET-AB"));
     }
 
-    // Test 1
+    // Test 2: Invalid formats
     @Test
-    void testGrouping_BogiesGroupedByType() {
-
-        Map<String, List<Bogie>> result = groupBogiesByType(getBogies());
-
-        assertEquals(2, result.get("Sleeper").size()); // two sleeper bogies
+    void testRegex_InvalidFormats() {
+        assertFalse(validateTrainID("TRAIN12"));
+        assertFalse(validateCargoCode("PET123"));
     }
 
-    // Test 2:
+    // Test 3: Edge cases (length + case)
     @Test
-    void testGrouping_DifferentBogieTypes() {
-
-        Map<String, List<Bogie>> result = groupBogiesByType(getBogies());
-
-        assertTrue(result.containsKey("AC Chair"));
-        assertTrue(result.containsKey("First Class"));
-    }
-
-    // Test 3
-    @Test
-    void testGrouping_EmptyBogieList() {
-
-        List<Bogie> empty = new ArrayList<>();
-
-        Map<String, List<Bogie>> result = groupBogiesByType(empty);
-
-        assertTrue(result.isEmpty());
+    void testRegex_EdgeCases() {
+        assertFalse(validateTrainID("TRN-123"));     // less digits
+        assertFalse(validateTrainID("TRN-12345"));   // extra digits
+        assertFalse(validateCargoCode("PET-ab"));    // lowercase
     }
 }
