@@ -3,26 +3,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementAppTest extends TrainConsistManagementApp {
 
-    // Test 1: Valid capacity
+    // Test 1: Valid cargo assignment
     @Test
-    void testValidCapacity() throws InvalidCapacityException {
-        PassengerBogie bogie = new PassengerBogie("Sleeper", 72);
-        assertEquals(72, bogie.capacity);
+    void testSafeAssignment() {
+        GoodsBogie bogie = new GoodsBogie("Cylindrical");
+        bogie.assignCargo("Petroleum");
+
+        assertEquals("Petroleum", bogie.cargo);
     }
 
-    // Test 2: Negative capacity
+    // Test 2: Unsafe assignment (should not assign)
     @Test
-    void testNegativeCapacityThrowsException() {
-        assertThrows(InvalidCapacityException.class, () -> {
-            new PassengerBogie("AC Chair", -5);
-        });
+    void testUnsafeAssignment() {
+        GoodsBogie bogie = new GoodsBogie("Rectangular");
+        bogie.assignCargo("Petroleum");
+
+        assertNull(bogie.cargo); // assignment should fail
     }
 
-    // Test 3: Zero capacity
+    // Test 3: Program continues after exception
     @Test
-    void testZeroCapacityThrowsException() {
-        assertThrows(InvalidCapacityException.class, () -> {
-            new PassengerBogie("First Class", 0);
-        });
+    void testProgramContinuation() {
+        GoodsBogie bogie = new GoodsBogie("Rectangular");
+
+        assertDoesNotThrow(() -> bogie.assignCargo("Petroleum"));
     }
 }
