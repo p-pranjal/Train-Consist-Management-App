@@ -3,42 +3,27 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementAppTest extends TrainConsistManagementApp {
 
-    // Test 1: Basic sorting
+    // Test 1: Found case
     @Test
-    void testSort_Basic() {
-        String[] arr = {"Sleeper", "AC Chair", "General"};
+    void testSearch_Found() {
+        String[] arr = {"BG101", "BG205", "BG309"};
 
-        sortBogieNames(arr);
-
-        assertArrayEquals(
-                new String[]{"AC Chair", "General", "Sleeper"},
-                arr
-        );
+        assertTrue(linearSearch(arr, "BG205"));
     }
 
-    // Test 2: Already sorted
+    //  Test 2: Not found case
     @Test
-    void testSort_AlreadySorted() {
-        String[] arr = {"AC Chair", "First Class", "Sleeper"};
+    void testSearch_NotFound() {
+        String[] arr = {"BG101", "BG205", "BG309"};
 
-        sortBogieNames(arr);
-
-        assertArrayEquals(
-                new String[]{"AC Chair", "First Class", "Sleeper"},
-                arr
-        );
+        assertFalse(linearSearch(arr, "BG999"));
     }
 
-    // Test 3: Random order input
+    // Test 3: Early termination behavior
     @Test
-    void testSort_UnsortedInput() {
-        String[] arr = {"Luxury", "General", "AC Chair"};
+    void testSearch_EarlyMatch() {
+        String[] arr = {"BG101", "BG205", "BG309"};
 
-        sortBogieNames(arr);
-
-        assertArrayEquals(
-                new String[]{"AC Chair", "General", "Luxury"},
-                arr
-        );
+        assertTrue(linearSearch(arr, "BG101")); // first element
     }
 }

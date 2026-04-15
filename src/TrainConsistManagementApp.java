@@ -1,38 +1,46 @@
-import java.util.Arrays;
-
 public class TrainConsistManagementApp {
 
-    // Core method (for testing)
-    public static void sortBogieNames(String[] bogies) {
-        Arrays.sort(bogies);
+    public static boolean linearSearch(String[] bogieIds, String searchId) {
+
+        for (String id : bogieIds) {
+            if (id.equals(searchId)) {
+                return true; // found
+            }
+        }
+
+        return false; // not found
     }
 
     public static void main(String[] args) {
 
         System.out.println("=======================================");
-        System.out.println(" UC17 - Sort Bogie Names using Arrays.sort() ");
+        System.out.println(" UC18 - Linear Search for Bogie ID ");
         System.out.println("=======================================\n");
 
-        // Input array
-        String[] bogieNames = {
-                "Sleeper",
-                "AC Chair",
-                "First Class",
-                "General",
-                "Luxury"
-        };
+        //  Array of bogie IDs
+        String[] bogieIds = {"BG101", "BG205", "BG309", "BG412", "BG507"};
 
-        // Display original
-        System.out.println("Original Bogie Names:");
-        System.out.println(Arrays.toString(bogieNames));
+        //  Search key
+        String searchId = "BG309";
 
-        // Sorting using built-in method
-        sortBogieNames(bogieNames);
+        //  Display all IDs
+        System.out.println("Available Bogie IDs:");
+        for (String id : bogieIds) {
+            System.out.print(id + " ");
+        }
 
-        // Display sorted
-        System.out.println("\nSorted Bogie Names (Alphabetical):");
-        System.out.println(Arrays.toString(bogieNames));
+        //  Search
+        boolean found = linearSearch(bogieIds, searchId);
 
-        System.out.println("\nUC17 sorting completed...");
+        //  Result
+        System.out.println("\n\nSearching for: " + searchId);
+
+        if (found) {
+            System.out.println("Bogie Found!");
+        } else {
+            System.out.println("Bogie Not Found!");
+        }
+
+        System.out.println("\nUC18 search completed...");
     }
 }
