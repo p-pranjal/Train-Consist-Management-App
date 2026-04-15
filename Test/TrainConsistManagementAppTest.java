@@ -3,27 +3,29 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementAppTest extends TrainConsistManagementApp {
 
-    // Test 1: Found case
+    //  Test 1: Exception when empty
     @Test
-    void testSearch_Found() {
-        String[] arr = {"BG101", "BG205", "BG309"};
+    void testSearch_EmptyArrayThrowsException() {
+        String[] arr = {};
 
-        assertTrue(linearSearch(arr, "BG205"));
+        assertThrows(IllegalStateException.class, () -> {
+            searchBogie(arr, "BG101");
+        });
     }
 
-    //  Test 2: Not found case
+    // Test 2: Search works when data exists
+    @Test
+    void testSearch_WithData() {
+        String[] arr = {"BG101", "BG205"};
+
+        assertTrue(searchBogie(arr, "BG101"));
+    }
+
+    // Test 3: Not found case
     @Test
     void testSearch_NotFound() {
-        String[] arr = {"BG101", "BG205", "BG309"};
+        String[] arr = {"BG101", "BG205"};
 
-        assertFalse(linearSearch(arr, "BG999"));
-    }
-
-    // Test 3: Early termination behavior
-    @Test
-    void testSearch_EarlyMatch() {
-        String[] arr = {"BG101", "BG205", "BG309"};
-
-        assertTrue(linearSearch(arr, "BG101")); // first element
+        assertFalse(searchBogie(arr, "BG999"));
     }
 }
